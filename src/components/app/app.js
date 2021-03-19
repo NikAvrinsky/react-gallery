@@ -1,19 +1,15 @@
 import React, {Component} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AddPicture from '../add-picture'
-import PicGallery from '../gallery'
+import Gallery from '../gallery'
 import './app.css'
 
 
 export default class App extends Component {
     constructor() {
         super()
-        this.data = [{
-                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550746.jpg",
-                width: 640,
-                height: 426
-                },
-                {
+        this.state = {
+            gallery: [{
                 url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964007.jpg",
                 width: 1920,
                 height: 1200
@@ -22,81 +18,68 @@ export default class App extends Component {
                 url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550739.jpg",
                 width: 640,
                 height: 426
-                },{
-                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964008.jpg",
-                width: 509,
-                height: 339
-                },{
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550740.jpg",
-                    width: 600,
-                    height: 400
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964008.jpg",
-                    width: 509,
-                    height: 339
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964011.jpg",
-                    width: 900,
-                    height: 450
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550755.jpg",
-                    width: 480,
-                    height: 640
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964013.jpg",
-                    width: 472,
-                    height: 640
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550745.jpg",
-                    width: 640,
-                    height: 425
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964014.jpg",
-                    width: 240,
-                    height: 320
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964016.jpg",
-                    width: 540,
-                    height: 337
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964020.jpg",
-                    width: 1600,
-                    height: 1000
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964010.jpg",
-                    width: 1506,
-                    height: 575
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550754.jpg",
-                    width: 1280,
-                    height: 1276
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964021.jpg",
-                    width: 1280,
-                    height: 800
-                    },
-                    {
-                    url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964012.jpg",
-                    width: 787,
-                    height: 787
-                    }]
-        
-        this.onFormSubmit=this.onFormSubmit.bind(this)
+                },
+                {
+                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964009.jpg",
+                width: 436,
+                height: 650
+                },
+                {
+                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550740.jpg",
+                width: 600,
+                height: 400
+                }],
+            width: 860,
+            rowHeight: 170
+        }
+        this.rowHeight = 180
+        this.defaultRowHeight = 180
+        this.mobileRowHeight = 90
+        this.updateWidth = this.updateWidth.bind(this)
+        this.onDelete = this.onDelete.bind(this)
+        this.onFormSubmit = this.onFormSubmit.bind(this)
     }
 
+    updateWidth() {
+        setTimeout(() => {
+            if (this.state.width !== document.getElementById('container').offsetWidth) {
+                this.setState({ width: document.getElementById('container').offsetWidth})
+            }
+            if (this.state.width <= 600) {
+                this.rowHeight = this.defaultMobileHeight
+            } else {
+                this.rowHeight = this.defaultHeight
+            }
+        }, 200)
+    }
+    onDelete(e) {
+        this.setState(({gallery}) => {
+                if (gallery.length === 1) return {gallery: []}
+                const index = gallery.findIndex((elem) => elem.url === e.target.src)         
+                const newArray = [...gallery.slice(0, index), ...gallery.slice(index + 1)]
+                return {
+                gallery: newArray
+                }
+            })
+          
+    } 
+    componentDidMount() {
+        this.updateWidth()
+        window.addEventListener('resize', this.updateWidth)
+        
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWidth);
+    }
+    
     onFormSubmit(data) {
-        this.setState({data: data})
+        this.setState(({gallery}) => {
+            let newGallery = []
+            newGallery = [...this.state.gallery, ...data]
+            console.log(newGallery)
+            return{gallery: newGallery}
+        })
+        
     }
 
     render() {
@@ -105,8 +88,11 @@ export default class App extends Component {
         id='container'>
             <AddPicture
                 onFormSubmit={this.onFormSubmit}/>
-            <PicGallery
-                data={this.data}
+            <Gallery
+                gallery={this.state.gallery}
+                width={this.state.width}
+                rowHeight={this.state.rowHeight}
+                onDelete={this.onDelete}
                 />
         </div>
         )

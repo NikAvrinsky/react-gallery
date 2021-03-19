@@ -48,6 +48,7 @@ export default class AddPicture extends Component {
       }
     
     render() {
+        
         return (
             <div className="d-flex">
                 <form 
