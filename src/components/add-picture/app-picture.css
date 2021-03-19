@@ -1,0 +1,21 @@
+.d-flex {
+    display: flex;
+}
+
+.justify-sb {
+    justify-content: space-between;
+    width: 100%;
+    
+    
+}
+.mr10 {
+    margin-right: 10px;
+    padding-bottom: 5px;
+    min-height: 50px;
+    
+}
+#preview {
+    position: absolute;
+    display: none;
+    z-index: -1;
+} 
