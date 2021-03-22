@@ -2,24 +2,19 @@ import React, {Component} from 'react'
 import Card from '../card'
 
 export default class Row extends Component {
-    constructor(props) {
-        super(props) 
-        this.data = props.rowPics
-        this.state = {
-            maxHeight: props.maxHeight
-        }
-        this.idCounter = 0   
-    }
     
     render() {
-        const {onDelete} = this.props
-        const elems = this.data.map(item => {
+        const {rowPics, maxHeight, onDelete} = this.props
+        let idCounter = this.props.id - rowPics.length
+
+        const elems = rowPics.map(item => {
             return (
                 <Card 
                 {...item}
-                maxHeight={this.state.maxHeight}
+                maxHeight={maxHeight}
                 onDelete={onDelete}
-                key={++this.idCounter}/>
+                key={idCounter}
+                id={idCounter++}/>
             )
         })
         return (

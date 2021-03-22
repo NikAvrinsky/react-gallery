@@ -7,7 +7,7 @@ export default class Gallery extends Component {
     constructor(props){
         super(props)
         this.rows = []
-        this.defaultHeight = 180
+        this.defaultHeight = 160
         this.defaultMobileHeight = 90
         this.rowHeight = this.defaultHeight
         this.idCounter = 0
@@ -67,25 +67,25 @@ export default class Gallery extends Component {
     
     
     render() {
-        console.log('RENDER')
-        
         const {onDelete, gallery, width} = this.props
-        
-        console.log(gallery)
-        
+        let idCounter = 0        
         if (gallery.length === 0) {
             return (
-                <div><h2>Картинок пока нет</h2></div>
+                <div className="gallery__placeholder">
+                    <h2>В галерее пока нет изображений</h2>
+                </div>
             )
         } else {
             this.setRows()
             let elems = this.rows.map(item=>{
+                idCounter += item.length
                 return (
                     <Row 
                     rowPics={item}
                     maxHeight={`${this.calcMaxHeight(item, width)}px`}
                     onDelete={onDelete}
-                    key={++this.idCounter}/>
+                    key={idCounter}
+                    id={idCounter}/>
                 )
             })
             return (

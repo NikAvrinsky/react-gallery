@@ -2,25 +2,23 @@ import React, {Component} from 'react'
 import './card.css'
 
 export default class Card extends Component {
-    constructor(props) {
-        super(props)
-        this.counter = 0
-
-    }
-      
-
+    
     render() {
-        const {url, maxHeight, onDelete} = this.props
+        const {url, maxHeight, onDelete, id} = this.props
        
         return(  
-            <div className='gallery__card'>
+            <div className='gallery__card'
+                id={id}>
                 <img
                 className='gallery__img'
                 src={url}
                 alt='img'
-                height={maxHeight}
-                onClick={(e) => onDelete(e)}
-            />
+                height={maxHeight}   
+                />
+            <div className="gallery__card-trash"
+                onClick={(e) => onDelete(e)}>
+                <i className="far fa-trash-alt"></i>
+            </div>
             </div>
         )
     }

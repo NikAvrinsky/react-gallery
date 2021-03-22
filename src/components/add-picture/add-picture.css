@@ -19,3 +19,14 @@
     display: none;
     z-index: -1;
 } 
+
+.holder_default {
+    width:100%;
+    border: 3px dashed #ccc;
+}
+
+#holder.hover { 
+    width:100%;
+    border: 3px dashed #0c0 !important; 
+}
+

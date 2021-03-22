@@ -9,26 +9,7 @@ export default class App extends Component {
     constructor() {
         super()
         this.state = {
-            gallery: [{
-                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964007.jpg",
-                width: 1920,
-                height: 1200
-                },
-                {
-                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550739.jpg",
-                width: 640,
-                height: 426
-                },
-                {
-                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/448964009.jpg",
-                width: 436,
-                height: 650
-                },
-                {
-                url: "https://don16obqbay2c.cloudfront.net/frontend-test-task/images/493550740.jpg",
-                width: 600,
-                height: 400
-                }],
+            gallery: [],
             width: 860,
             rowHeight: 170
         }
@@ -50,13 +31,14 @@ export default class App extends Component {
             } else {
                 this.rowHeight = this.defaultHeight
             }
-        }, 200)
+        }, 50)
     }
     onDelete(e) {
         this.setState(({gallery}) => {
                 if (gallery.length === 1) return {gallery: []}
-                const index = gallery.findIndex((elem) => elem.url === e.target.src)         
+                const index = e.target.parentNode.parentNode.id        
                 const newArray = [...gallery.slice(0, index), ...gallery.slice(index + 1)]
+                console.log(newArray, e.target.parentNode.parentNode.id )
                 return {
                 gallery: newArray
                 }
@@ -69,23 +51,22 @@ export default class App extends Component {
         
     }
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWidth);
+        window.removeEventListener('resize', this.updateWidth)
     }
     
     onFormSubmit(data) {
         this.setState(({gallery}) => {
             let newGallery = []
             newGallery = [...this.state.gallery, ...data]
-            console.log(newGallery)
-            return{gallery: newGallery}
+            document.getElementById('holder').classList = 'holder_default"'
+            return {gallery: newGallery}
         })
         
     }
 
     render() {
         return (
-        <div className="container"
-        id='container'>
+        <div id='container'>
             <AddPicture
                 onFormSubmit={this.onFormSubmit}/>
             <Gallery
