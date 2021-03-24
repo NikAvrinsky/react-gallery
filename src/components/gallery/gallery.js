@@ -1,20 +1,21 @@
 import React, {Component} from 'react'
 import Row from '../row'
-import './gallery.css'
+import './gallery.scss'
 
 
 export default class Gallery extends Component {
     constructor(props){
         super(props)
         this.rows = []
-        this.defaultHeight = 160
-        this.defaultMobileHeight = 90
+        this.width = this.props.width
+        this.defaultHeight = this.props.defaultHeight
+        this.defaultMobileHeight = this.props.defaultMobileHeight
         this.rowHeight = this.defaultHeight
         this.idCounter = 0
         
          
     }
-    getIndexes(d, height=this.props.rowHeight) {
+    getIndexes(d, height=this.defaultHeight) {
         const currentHeight = height
         const data = d
 
@@ -34,26 +35,40 @@ export default class Gallery extends Component {
         currentWidth = currentWidth + 10*(row.length-1)
         return currentWidth
     }
-    calcMaxHeight(row, width=this.props.width) {
+    calcMaxHeight(row, width=this.width) {
         let currentHeight = this.rowHeight
         const totalWidth = width
         const data = row
+        if (width <= 600) {
+            this.rowHeight = this.defaultMobileHeight  
+        } else {
+            this.rowHeight = this.defaultHeight
+        }
+        
         let currentWidth = this.getCurrentWidth(data, currentHeight)
         while (currentWidth <= totalWidth) {
             currentWidth = this.getCurrentWidth(data, currentHeight)
             currentHeight += 0.001
+        }
+        if (currentHeight > this.rowHeight * 2) {
+            return this.rowHeight
         } 
         return currentHeight              
     }
 
     setRows() {
-        const {gallery, rowHeight, width} = this.props
+        const {gallery, width} = this.props
         this.rows = []
         let newRow = []
         let newRowWidth = 0
+        if (width <= 600) {
+            this.rowHeight = this.defaultMobileHeight  
+        } else {
+            this.rowHeight = this.defaultHeight
+        }       
         for (let i = 0; i < gallery.length; i++) {
             newRow.push(gallery[i])
-            newRowWidth = this.getCurrentWidth(newRow, rowHeight)
+            newRowWidth = this.getCurrentWidth(newRow, this.rowHeight)
             if (newRowWidth > width) {
                 newRow.pop()
                 this.rows.push(newRow)

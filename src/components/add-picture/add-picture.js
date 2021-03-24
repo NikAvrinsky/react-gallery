@@ -1,21 +1,36 @@
 import React, {Component} from 'react'
 
 
-import './add-picture.css'
+import './add-picture.scss'
 
 export default class AddPicture extends Component {
     
-    async _handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault()
         let data = []
         let url = e.target.input.value
         const {onFormSubmit} = this.props
+        
         if (url) {
-            if (url.includes('.json')) {
+            if (url.includes('galleryImages')) {
+                data = JSON.parse(url).galleryImages
+                let i = 0
+                data.forEach(item=>{ 
+                    
+                    item.id = Date.now() + i
+                    i++
+                })
+            } else if (url.includes('.json')) {
                 await fetch(url)
                 .then(res => res.json())
                 .then((out) => {
-                data = out.galleryImages
+                    let i =0
+                    data = out.galleryImages
+                    data.forEach(item=>{ 
+                        item.id = Date.now() + i
+                        i++
+                    })
+                console.log(data)
                 })
                 .catch(err => { throw err });
             } else {
@@ -24,8 +39,10 @@ export default class AddPicture extends Component {
                 let obj = {
                     url: url,
                     width: preview.width,
-                    height: preview.height
+                    height: preview.height,
+                    id: Date.now()
                 }
+                console.log(obj)
                 data.push(obj)
                 obj = []
             }
@@ -45,16 +62,25 @@ export default class AddPicture extends Component {
             
             e.preventDefault()
             const file = e.dataTransfer.files[0]
-            const reader = new FileReader()
-            reader.onload = function (e) {
-                const image = document.getElementById('preview')
-                image.setAttribute('src',  e.target.result )
-                document.getElementById('input').value = e.target.result
-                
-                
+            if(file.type === 'image/jpeg') {
+            
+                const reader = new FileReader()
+                reader.onload = function (e) {
+                    const image = document.getElementById('preview')
+                    image.setAttribute('src',  e.target.result )
+                    document.getElementById('input').value = e.target.result    
+                }
+                reader.readAsDataURL(file)
+            } else if ( file.type === 'application/json') {
+                const reader = new FileReader()
+                reader.onload = function(e) {
+                    document.getElementById('input').value = e.target.result
+                }
+                reader.readAsText(file)    
+            } else {
+                alert('формат файла не поддерживается')
             }
-            reader.readAsDataURL(file)
-        
+            
         }
     }
     componentDidMount() {
@@ -66,12 +92,12 @@ export default class AddPicture extends Component {
             <div className="d-flex">
                 <form 
                     className='d-flex justify-sb'
-                    onSubmit={(e) => this._handleSubmit(e)}>
+                    onSubmit={(e) => this.handleSubmit(e)}>
                     <div id="holder" 
                          className="holder_default">
                     <input
                         type='text'
-                        placeholder='Введите ссылку на изображение или файл JSON'
+                        placeholder='Введите ссылку на изображение, JSON файл или перетащите файл сюда'
                         className='form-control mr10'
                         id='input'  
                     />

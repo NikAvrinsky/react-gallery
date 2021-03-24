@@ -1,18 +1,17 @@
+$markedc:#0c0;
+$defaultc:#ccc;
+
 .d-flex {
     display: flex;
 }
-
 .justify-sb {
     justify-content: space-between;
-    width: 100%;
-    
-    
+    width: 100%;  
 }
 .mr10 {
     margin-right: 10px;
     padding-bottom: 5px;
-    min-height: 50px;
-    
+    min-height: 50px;   
 }
 #preview {
     position: absolute;
@@ -22,11 +21,17 @@
 
 .holder_default {
     width:100%;
-    border: 3px dashed #ccc;
+    margin-right: 10px;
+    border: 2px dashed $defaultc;
+    border-radius: 5px;
 }
 
 #holder.hover { 
     width:100%;
-    border: 3px dashed #0c0 !important; 
+    margin-right: 10px;
+    border: 2px dashed $markedc; 
+    border-radius: 5px;
 }
-
+#input {
+    border: none;
+}
