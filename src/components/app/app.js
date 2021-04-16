@@ -50,7 +50,6 @@ export default class App extends Component {
             const positionId = parseInt(position)
             const itemIndex = gallery.findIndex(item => item.id === itemId)
             const positionIndex = gallery.findIndex(item => item.id === positionId)
-            //console.log(item, position)
             let newArray = null
             if (positionIndex > itemIndex) {
                 newArray = [...gallery.slice(0, itemIndex), ...gallery.slice(itemIndex+1, positionIndex + 1), 
@@ -61,7 +60,6 @@ export default class App extends Component {
             } else {
                 newArray = gallery
             }
-            //console.log(newArray)
             return {
             gallery: newArray
             }
@@ -69,7 +67,6 @@ export default class App extends Component {
     }
 
     dragAndDrop(id) {
-        //console.log(this)
         const nodeId = id
         
 
@@ -79,10 +76,7 @@ export default class App extends Component {
             e.target.nextSibling.classList.add('hide-dis')
             document.querySelectorAll('.gallery__card-trash').forEach(item => {
                 item.classList.add('hide-dis')
-            })
-
-
-            //console.log('start',this.itemId)
+            })    
         }
         const dragEnd = function(e) {
             e.target.classList.remove('hide')
@@ -94,13 +88,13 @@ export default class App extends Component {
         const dragOver = (e) => {
             e.preventDefault()
             this.positionId = e.target.nextSibling.id
-            //console.log('over',this.positionId)
+            this.onReplace()   
         }
         const dragEnter = function() {
-            //console.log('enter')
+            
         }
         const dragLeave = function() {
-            //console.log('leave')
+            
         }
         const dragDrop = () => {
             this.onReplace(this.itemId, this.positionId) 
@@ -116,9 +110,7 @@ export default class App extends Component {
 
     componentDidMount() {
         this.updateWidth()
-        window.addEventListener('resize', this.updateWidth)
-        
-        
+        window.addEventListener('resize', this.updateWidth) 
     }
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWidth)
