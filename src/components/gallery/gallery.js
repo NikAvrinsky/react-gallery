@@ -32,7 +32,7 @@ export default class Gallery extends Component {
         row.forEach(item=>{
             currentWidth += item.width*item.index
         })
-        currentWidth = currentWidth + 10*(row.length-1)
+        currentWidth = currentWidth + 10*(row.length-1) + 40 // Includes paddings
         return currentWidth
     }
     calcMaxHeight(row, width=this.width) {
@@ -78,9 +78,6 @@ export default class Gallery extends Component {
         }
         this.rows.push(newRow)
     }
-   
-    
-    
     render() {
         const {onDelete, gallery, width} = this.props
         let idCounter = 0        
@@ -100,7 +97,8 @@ export default class Gallery extends Component {
                     maxHeight={`${this.calcMaxHeight(item, width)}px`}
                     onDelete={onDelete}
                     key={idCounter}
-                    id={idCounter}/>
+                    id={idCounter}
+                    dnd={this.props.dnd}/>
                 )
             })
             return (

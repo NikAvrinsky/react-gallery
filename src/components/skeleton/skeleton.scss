@@ -1,0 +1,18 @@
+.card__skeleton {
+    margin: 20px;
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, rgba(180, 180, 180,0.5) 0%, rgba(216, 216, 216, 0.4) 50%, rgba(180, 180, 180, 0.5) 100%);
+    animation: gradient 1s ease infinite;
+    background-size: 100% 400%;
+  }
+
+@keyframes gradient {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 100%;
+  }
+}

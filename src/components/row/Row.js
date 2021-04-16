@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Card from '../card'
+import './row.scss'
 
 
 export default class Row extends Component {
@@ -14,12 +15,12 @@ export default class Row extends Component {
                 maxHeight={maxHeight}
                 onDelete={onDelete}
                 key={idCounter++}
-                //id={idCounter++}
+                dnd={this.props.dnd}
                 />
             )
         })
         return (
-            <div className="row">
+            <div className="gallery__row">
                 {elems}
             </div>
         )

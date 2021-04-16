@@ -30,7 +30,6 @@ export default class AddPicture extends Component {
                         item.id = Date.now() + i
                         i++
                     })
-                console.log(data)
                 })
                 .catch(err => { throw err });
             } else {
@@ -42,7 +41,6 @@ export default class AddPicture extends Component {
                     height: preview.height,
                     id: Date.now()
                 }
-                console.log(obj)
                 data.push(obj)
                 obj = []
             }
@@ -55,7 +53,7 @@ export default class AddPicture extends Component {
     dragFileUpload() {
         const holder = document.getElementById('holder')
         holder.ondragover = function() {
-            this.className = 'hover'
+            this.className = 'add__holder_hovered'
             return false
         }
         holder.ondrop = function (e) {
@@ -89,27 +87,31 @@ export default class AddPicture extends Component {
     render() {
         
         return (
-            <div className="d-flex">
+            <div className="add__wrapper">
                 <form 
-                    className='d-flex justify-sb'
+                    className='add__form'
                     onSubmit={(e) => this.handleSubmit(e)}>
                     <div id="holder" 
-                         className="holder_default">
+                         className="add__holder">
                     <input
                         type='text'
                         placeholder='Введите ссылку на изображение, JSON файл или перетащите файл сюда'
-                        className='form-control mr10'
+                        className='add__input'
                         id='input'  
                     />
                     </div>
                     
                     <button
                         type='submit'
-                        className='btn btn-outline-secondary'
+                        className='add__button'
                     >Загрузить</button>
                     
                 </form>
-                <img id='preview' src='' alt='img'></img>
+                <img 
+                    id='preview'
+                    className='add__preview' 
+                    src='' 
+                    alt='img'></img>
             </div>
         )
     }
