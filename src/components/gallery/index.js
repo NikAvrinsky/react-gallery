@@ -1,2 +1,2 @@
-import Gallery from './gallery'
-export default Gallery
+import Gallery from './gallery';
+export default Gallery;
